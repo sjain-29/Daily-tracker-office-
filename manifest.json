@@ -1,0 +1,16 @@
+{
+  "name": "Daily Tracker",
+  "short_name": "Tracker",
+  "description": "Daily follow-up tracker: tasks, current status, and who to contact next.",
+  "id": "./",
+  "start_url": "./index.html#/today",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a0b0f",
+  "theme_color": "#0a0b0f",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

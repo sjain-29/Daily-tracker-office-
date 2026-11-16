@@ -1,0 +1,168 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "roles": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+    "tracker": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid && root.child('roles').child(auth.uid).exists()",
+        ".write": "auth != null && auth.uid === $uid && root.child('roles').child(auth.uid).exists()",
+        "meta": {
+          "seeded": {
+            ".validate": "newData.isBoolean()"
+          },
+          "createdAt": {
+            ".validate": "newData.isNumber() && newData.val() >= 0"
+          },
+          "$other": {
+            ".validate": false
+          }
+        },
+        "departments": {
+          "$deptId": {
+            ".validate": "newData.hasChildren(['name', 'createdAt'])",
+            "name": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 60"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "updatedAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "people": {
+          "$personId": {
+            ".validate": "newData.hasChildren(['name', 'departmentId', 'createdAt'])",
+            "name": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80"
+            },
+            "departmentId": {
+              ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9_-]+$/) && newData.val().length <= 64"
+            },
+            "phone": {
+              ".validate": "newData.isString() && newData.val().length <= 30 && newData.val().matches(/^[0-9+() .-]*$/)"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "updatedAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "tasks": {
+          "$taskId": {
+            ".validate": "newData.hasChildren(['title', 'status', 'createdDate', 'createdAt', 'updatedAt'])",
+            "title": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 300"
+            },
+            "status": {
+              ".validate": "newData.isString() && (newData.val() === 'open' || newData.val() === 'completed' || newData.val() === 'failed')"
+            },
+            "currentStatus": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 2000"
+            },
+            "personId": {
+              ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9_-]+$/) && newData.val().length <= 64"
+            },
+            "personName": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80"
+            },
+            "departmentId": {
+              ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9_-]+$/) && newData.val().length <= 64"
+            },
+            "departmentName": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 60"
+            },
+            "createdDate": {
+              ".validate": "newData.isString() && newData.val().matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+            },
+            "createdAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "updatedAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "lastUpdateAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "closedAt": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "closedDate": {
+              ".validate": "newData.isString() && newData.val().matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+            },
+            "holdUntil": {
+              ".validate": "newData.isString() && newData.val().matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+            },
+            "daily": {
+              ".validate": "newData.isBoolean() && newData.val() === true"
+            },
+            "dailySince": {
+              ".validate": "newData.isString() && newData.val().matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+            },
+            "doneDates": {
+              "$day": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && $day.matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+              }
+            },
+            "updates": {
+              "$updateId": {
+                ".validate": "newData.hasChildren(['at', 'date', 'type'])",
+                "at": {
+                  ".validate": "newData.isNumber() && newData.val() >= 0"
+                },
+                "date": {
+                  ".validate": "newData.isString() && newData.val().matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+                },
+                "type": {
+                  ".validate": "newData.isString() && (newData.val() === 'created' || newData.val() === 'update' || newData.val() === 'completed' || newData.val() === 'failed' || newData.val() === 'reopened' || newData.val() === 'resumed' || newData.val() === 'daily-on' || newData.val() === 'daily-off')"
+                },
+                "note": {
+                  ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 2000"
+                },
+                "personId": {
+                  ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9_-]+$/) && newData.val().length <= 64"
+                },
+                "personName": {
+                  ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80"
+                },
+                "departmentId": {
+                  ".validate": "newData.isString() && newData.val().matches(/^[A-Za-z0-9_-]+$/) && newData.val().length <= 64"
+                },
+                "departmentName": {
+                  ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 60"
+                },
+                "holdUntil": {
+                  ".validate": "newData.isString() && newData.val().matches(/^[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]$/)"
+                },
+                "$other": {
+                  ".validate": false
+                }
+              }
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}
